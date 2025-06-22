@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest, { params }: { params: { empId: strin
 }
 
 export function DELETE(req: NextRequest, { params }: { params: { empId: string } }) {
-  const empId = params.empId;
+//   const empId = params.empId;
 
   return NextResponse.json({ result: "Employee deleted", success: true }, { status: 200 });
 }
