@@ -2,17 +2,10 @@ import { employees } from "@/utils/db";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// ✅ Correct type for the context object
-type Context = {
-  params: {
-    empId: string;
-  };
-};
-
-// GET handler
-export function GET(request: NextRequest, context: Context) {
-  const empId = context.params.empId;
-  const employeeDetails = employees.filter(emp => emp.empId == empId);
+// ✅ Properly typed context inline
+export function GET(req: NextRequest, { params }: { params: { empId: string } }) {
+  const empId = params.empId;
+  const employeeDetails = employees.filter(emp => emp.empId === empId);
 
   return NextResponse.json(
     employeeDetails.length === 0
@@ -21,10 +14,9 @@ export function GET(request: NextRequest, context: Context) {
   );
 }
 
-// PUT handler
-export async function PUT(request: NextRequest, context: Context) {
-  const empId = context.params.empId;
-  const payload = await request.json();
+export async function PUT(req: NextRequest, { params }: { params: { empId: string } }) {
+  const empId = params.empId;
+  const payload = await req.json();
 
   if (!payload.name || !payload.age || !payload.company) {
     return NextResponse.json({ message: "Please provide all fields" }, { status: 400 });
@@ -36,13 +28,8 @@ export async function PUT(request: NextRequest, context: Context) {
   });
 }
 
-// DELETE handler
-export function DELETE(request: NextRequest, context: Context) {
-  const empId = context.params.empId;
-
-  if (!empId) {
-    return NextResponse.json({ message: "Employee not found", success: false }, { status: 404 });
-  }
+export function DELETE(req: NextRequest, { params }: { params: { empId: string } }) {
+  const empId = params.empId;
 
   return NextResponse.json({ result: "Employee deleted", success: true }, { status: 200 });
 }
