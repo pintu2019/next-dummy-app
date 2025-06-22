@@ -1,7 +1,10 @@
 import { employees } from "@/utils/db";
 import { NextResponse } from "next/server";
 
-export function GET(request: Request, content: { params: { empId: { toString: () => any; }; }; }) {
+export function GET(
+   request: Request,
+   content: { params: { empId: { toString: () => string } } }
+) {
    const employeesData = employees;
    const employeeDetails = employeesData.filter((emp)=> emp.empId == content.params.empId.toString())
     console.log("Employee Details:", employeeDetails.length); 
@@ -10,7 +13,10 @@ export function GET(request: Request, content: { params: { empId: { toString: ()
    )
 }
 
-export async function PUT(req: any, content: { params: { empId: { toString: () => any; }; }; }) {
+export async function PUT(
+   req: Request,
+   content: { params: { empId: { toString: () => string } } }
+) {
    const payload = await req.json()
    const userId = content.params.empId.toString()
    if(!payload.name || !payload.age || !payload.company){
