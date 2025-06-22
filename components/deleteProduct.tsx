@@ -2,11 +2,15 @@
 
 import { useRouter } from "next/navigation";
 
-useRouter
-const DeleteProduct  = (props: { id: any; }) =>{
+
+type DeleteProductProps = {
+    id: string;
+};
+
+const DeleteProduct  = (props: DeleteProductProps) =>{
     const router = useRouter();
     const deleteProduct = async() =>{
-        let response = await fetch(`http://localhost:3000/api/products/${props.id}`,{
+        const response = await fetch(`http://localhost:3000/api/products/${props.id}`,{
             method:"DELETE"
         })
         const result = await response.json()

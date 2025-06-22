@@ -1,7 +1,7 @@
 import { employees } from "@/utils/db";
 import { NextResponse } from "next/server";
 
-export function GET(request: Request,content: { params: { empId: { toString: () => string; }; }; }){
+export function GET(request: Request, content: { params: { empId: { toString: () => any; }; }; }) {
    const employeesData = employees;
    const employeeDetails = employeesData.filter((emp)=> emp.empId == content.params.empId.toString())
     console.log("Employee Details:", employeeDetails.length); 
@@ -10,7 +10,7 @@ export function GET(request: Request,content: { params: { empId: { toString: () 
    )
 }
 
-export async function PUT(req:any,content: { params: { empId: { toString: () => any; }; }; }){
+export async function PUT(req: any, content: { params: { empId: { toString: () => any; }; }; }) {
    const payload = await req.json()
    const userId = content.params.empId.toString()
    if(!payload.name || !payload.age || !payload.company){
@@ -21,7 +21,10 @@ export async function PUT(req:any,content: { params: { empId: { toString: () => 
    )
 }
 
-export function DELETE(request: Request,content: { params: { empId: any; }; }){
+export function DELETE(
+   request: Request,
+   content: { params: { empId: { toString: () => any } } }
+) {
    const empId = content.params.empId
    if (empId){
       return NextResponse.json({result:"Employee deleted", success:true},{status:200})

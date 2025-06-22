@@ -10,7 +10,7 @@ export async function GET(){
     return NextResponse.json({success:true, message:"Products API is working fine",response:data}, { status: 200 });
 }
 
-export async function POST(request: { json: () => any; }){
+export async function POST(request: Request){
     const payload = await request.json()
     await mongoose.connect(connectionSrt);
     const product = new Product(payload)
