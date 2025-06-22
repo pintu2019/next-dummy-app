@@ -29,7 +29,7 @@ export async function PUT(
 
 export function DELETE(
    request: Request,
-   content: { params: { empId: { toString: () => any } } }
+   content: { params: { empId: { toString: () => string } } }
 ) {
    const empId = content.params.empId
    if (empId){
