@@ -1,19 +1,26 @@
 import Link from "next/link";
 import DeleteUser from "../../../components/button";
 
-async function getEmployees() {
+type Employee = {
+  empId: string;
+  name: string;
+  age: number;
+  company: string;
+};
+
+async function getEmployees(): Promise<Employee[]> {
   const res = await fetch('http://localhost:3000/api/employees');  
   const data = await res.json();
   return data.employees;
 }
 
 const EmpoyeesPage = async () => {
-  let employees = await getEmployees();
+  const employees = await getEmployees();
   
   return (
     <div>
       <h1 className="text-center text-2xl underline">Employees Page</h1>
-      {employees.map((emp:any) =>{
+      {employees.map((emp: Employee) =>{
         return(
           <div key={emp.empId} style={{ border: '1px solid black', margin: '10px', padding: '10px' }}>
             <Link href={`employees/${emp.empId}`}><h2>Name: {emp.name}</h2></Link>

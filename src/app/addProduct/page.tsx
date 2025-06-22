@@ -7,9 +7,9 @@ const AddProduct = () => {
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    let result = await fetch("http://localhost:3000/api/products", {
+    const result = await fetch("http://localhost:3000/api/products", {
       method: "POST",
       body: JSON.stringify({ name, price, company, category }),
     });

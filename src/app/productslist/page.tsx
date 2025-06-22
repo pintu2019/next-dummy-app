@@ -1,20 +1,28 @@
 import Link from "next/link";
 import DeleteProduct from "../../../components/deleteProduct";
 
-const getProducts = async () => {
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  company: string;
+  category: string;
+}
+
+const getProducts = async (): Promise<Product[]> => {
   const response = await fetch("http://localhost:3000/api/products");
   const data = await response.json();
 
   if (data.success){
-    return data.response;
+    return data.response as Product[];
   }
   else {
-    return {error: "Failed to fetch products"}
+    return [];
   }
 }
 
 const Productlist = async () => {
-  const products  = await getProducts();
+  const products: Product[]  = await getProducts();
   return(
     <div>
       <h1>Product List</h1>
@@ -31,7 +39,7 @@ const Productlist = async () => {
           </tr>   
         </thead>
         <tbody>
-          {products.map((product: any) => (
+          {products.map((product) => (
             <tr key={product._id}>
               <td className="border border-gray-300 p-2">{product.name}</td>
               <td className="border border-gray-300 p-2">{product.price}</td>

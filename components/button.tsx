@@ -1,6 +1,6 @@
 "use client";
 
-const DeleteUser = (props: any) => {
+const DeleteUser = (props: { empId: any; }) => {
   const empId = props.empId;
   const handleDelete = async () => {
     const response = await fetch(`http://localhost:3000/api/employees/${empId}`, {

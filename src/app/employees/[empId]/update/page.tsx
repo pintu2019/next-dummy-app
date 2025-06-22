@@ -15,7 +15,7 @@ const UpdateUser = ({ params }: UpdateUserProps) =>{
     const [name, setName] = useState("");
     const [age, setAge] = useState("");  
     const [company, setCompany] = useState("");
-    let empId = params.empId;
+    const empId = params.empId;
 
     useEffect(() =>{
         getEmployeeDetails();

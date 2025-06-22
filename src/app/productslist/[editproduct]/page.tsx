@@ -3,7 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const EditProduct = (props) => {
+interface EditProductProps {
+  params: {
+    editproduct: string;
+  };
+}
+
+const EditProduct = (props: EditProductProps) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [company, setCompany] = useState("");
@@ -29,7 +35,7 @@ const EditProduct = (props) => {
   }
   
   const updateProduct = async () =>{
-    let result = await fetch (`http://localhost:3000/api/products/${props.params.editproduct}`, {
+    const result = await fetch (`http://localhost:3000/api/products/${props.params.editproduct}`, {
         method: "PUT",
         body: JSON.stringify({ name, price, company, category }),
     })

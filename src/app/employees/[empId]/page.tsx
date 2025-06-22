@@ -1,4 +1,4 @@
-async function getEmployee(empId:any) {
+async function getEmployee(empId: string) {
   const res = await fetch(`http://localhost:3000/api/employees/${empId}`);  
   const data = await res.json();
   return data;

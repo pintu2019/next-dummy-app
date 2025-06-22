@@ -8,7 +8,7 @@ const AddUser = () => {
   const [age, setAge] = useState("");
 
   const addUser = async () => {
-    let response = await fetch("http://localhost:3000/api/users", {
+    const response = await fetch("http://localhost:3000/api/users", {
       method: "POST",
       body: JSON.stringify({
         name,
@@ -16,7 +16,7 @@ const AddUser = () => {
         age,
       }),
     });
-    let data = await response.json();
+    const data = await response.json();
     console.log("User added:", data);
   };
 
