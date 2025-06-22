@@ -1,41 +1,48 @@
 import { employees } from "@/utils/db";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export function GET(
-   request: Request,
-   content: { params: { empId: { toString: () => string } } }
-) {
-   const employeesData = employees;
-   const employeeDetails = employeesData.filter((emp)=> emp.empId == content.params.empId.toString())
-    console.log("Employee Details:", employeeDetails.length); 
-   return NextResponse.json(
-      employeeDetails.length == 0 ? { message: "Employee not found" } : employeeDetails[0]
-   )
+// ✅ Correct type for the context object
+type Context = {
+  params: {
+    empId: string;
+  };
+};
+
+// GET handler
+export function GET(request: NextRequest, context: Context) {
+  const empId = context.params.empId;
+  const employeeDetails = employees.filter(emp => emp.empId == empId);
+
+  return NextResponse.json(
+    employeeDetails.length === 0
+      ? { message: "Employee not found" }
+      : employeeDetails[0]
+  );
 }
 
-export async function PUT(
-   req: Request,
-   content: { params: { empId: { toString: () => string } } }
-) {
-   const payload = await req.json()
-   const userId = content.params.empId.toString()
-   if(!payload.name || !payload.age || !payload.company){
-      return NextResponse.json({ message: "Please provide all fields" }, { status: 400 });
-   }
-   return NextResponse.json(
-      { message: `Employee with ID ${userId} updated successfully`, data: payload },   
-   )
+// PUT handler
+export async function PUT(request: NextRequest, context: Context) {
+  const empId = context.params.empId;
+  const payload = await request.json();
+
+  if (!payload.name || !payload.age || !payload.company) {
+    return NextResponse.json({ message: "Please provide all fields" }, { status: 400 });
+  }
+
+  return NextResponse.json({
+    message: `Employee with ID ${empId} updated successfully`,
+    data: payload
+  });
 }
 
-export function DELETE(
-   request: Request,
-   content: { params: { empId: { toString: () => string } } }
-) {
-   const empId = content.params.empId
-   if (empId){
-      return NextResponse.json({result:"Employee deleted", success:true},{status:200})
-   }
-   if (!empId){
-      return NextResponse.json({ message: "Employee not found",success:false }, { status: 404 });
-   }
+// DELETE handler
+export function DELETE(request: NextRequest, context: Context) {
+  const empId = context.params.empId;
+
+  if (!empId) {
+    return NextResponse.json({ message: "Employee not found", success: false }, { status: 404 });
+  }
+
+  return NextResponse.json({ result: "Employee deleted", success: true }, { status: 200 });
 }
